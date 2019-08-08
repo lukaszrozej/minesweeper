@@ -1,3 +1,3 @@
 /* global rxjs */
 
-console.log(rxjs)
+console.log('index', rxjs)
