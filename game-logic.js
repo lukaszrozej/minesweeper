@@ -2,7 +2,7 @@
 const emptySquare = () => ({
   hasMine: false,
   adjacentMines: 0,
-  covered: true,
+  covered: false,
   flagged: false
 })
 

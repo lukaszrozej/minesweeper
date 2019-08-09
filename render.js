@@ -22,7 +22,8 @@ const createBackground = () => createSVGElement('rect', {
   width: '1',
   height: '1',
   fill: '#ddd',
-  stroke: '#666'
+  stroke: '#666',
+  'stroke-width': '0.1'
 })
 
 const createMine = () => {
@@ -31,26 +32,30 @@ const createMine = () => {
     y1: '0.5',
     x2: '0.95',
     y2: '0.5',
-    stroke: 'black'
+    stroke: 'black',
+    'stroke-width': '0.1'
   })
   const lineV = createSVGElement('line', {
     y1: '0.05',
     x1: '0.5',
     y2: '0.95',
     x2: '0.5',
-    stroke: 'black'
+    stroke: 'black',
+    'stroke-width': '0.1'
   })
   const bigCircle = createSVGElement('circle', {
     cx: '0.5',
     cy: '0.5',
-    r: '0.4'
+    r: '0.4',
+    fill: 'black'
   })
   const smallCircle = createSVGElement('circle', {
     cx: '0.3',
     cy: '0.4',
-    r: '0.1'
+    r: '0.1',
+    fill: 'white'
   })
-  const group = createSVG('g', {})
+  const group = createSVGElement('g', {})
   group.appendChild(lineH)
   group.appendChild(lineV)
   group.appendChild(bigCircle)
