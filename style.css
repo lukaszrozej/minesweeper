@@ -6,3 +6,7 @@
 body {
   background: black;
 }
+
+.hidden {
+  visibility: hidden;
+}
