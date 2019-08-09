@@ -89,12 +89,13 @@ const createContent = square => {
 }
 
 const createCover = () => createSVGElement('rect', {
-  x: '0',
-  y: '0',
-  width: '1',
-  height: '1',
-  fill: '#8f8',
-  stroke: '#0f0'
+  x: '0.05',
+  y: '0.05',
+  width: '0.95',
+  height: '0.95',
+  fill: 'blue',
+  // stroke: '#black',
+  // 'stroke-width': '0.01'
 })
 
 const createFlag = () => {
@@ -126,11 +127,16 @@ const createSquare = rows => (square, i) => {
   const content = createContent(square)
   const cover = createCover()
   const flag = createFlag()
-  const group = createGroup(rows, i)
+
+  const x = i % rows
+  const y = Math.floor(i / rows)
+  const group = createGroup(x, y)
+
   group.appendChild(background)
   if (content) group.appendChild(content)
   group.appendChild(cover)
   group.appendChild(flag)
+
   return {
     group,
     cover,
@@ -142,6 +148,8 @@ const createBoardAndRender = state => {
   const svg = createSVG(state)
   const squares = state.squares.map(createSquare(state.rows))
   squares.forEach(square => svg.appendChild(square.group))
+
+  document.querySelector('.board').appendChild(svg)
 
   const uncover = i => {
     squares[i].cover.classList.add('hidden')
