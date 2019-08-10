@@ -166,7 +166,7 @@ const createBoardAndRender = state => {
 
   document.querySelector('.board').appendChild(svg)
 
-  const uncover = i => {
+  const renderUncovered = i => {
     squares[i].cover.classList.add('hidden')
   }
 
@@ -176,7 +176,7 @@ const createBoardAndRender = state => {
 
   const render = state => {
     state.squares.forEach((square, i) => {
-      if (!square.covered) uncover(i)
+      if (!square.covered) renderUncovered(i)
       if (square.flagged) renderFlag(i)
     })
   }
