@@ -151,6 +151,8 @@ const createSquare = rows => (square, i) => {
   if (content) group.appendChild(content)
   group.appendChild(cover)
   group.appendChild(flag)
+  group.id = i
+  group.classList.add('square')
 
   return {
     group,

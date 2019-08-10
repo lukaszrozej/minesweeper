@@ -28,7 +28,7 @@ const getSquare = state => p => state.squares[p.y * state.cols + p.x]
 const emptySquare = rows => i => ({
   hasMine: false,
   adjacentMines: 0,
-  covered: false,
+  covered: true,
   flagged: false,
   x: i % rows,
   y: Math.floor(i / rows)
