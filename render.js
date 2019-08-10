@@ -1,6 +1,6 @@
 console.log('render')
 
-const squareSize = 20
+const squareSize = 30
 const ns = 'http://www.w3.org/2000/svg'
 
 const createSVGElement = (elementName, attributes) => {
@@ -27,37 +27,34 @@ const createBackground = () => createSVGElement('rect', {
 })
 
 const createMine = () => {
-  const lineH = createSVGElement('line', {
-    x1: '0.05',
-    y1: '0.5',
-    x2: '0.95',
-    y2: '0.5',
-    stroke: 'black',
-    'stroke-width': '0.1'
-  })
-  const lineV = createSVGElement('line', {
-    y1: '0.05',
-    x1: '0.5',
-    y2: '0.95',
-    x2: '0.5',
-    stroke: 'black',
-    'stroke-width': '0.1'
-  })
+  const group = createSVGElement('g', {})
+  const r = 0.4
+  const lines = []
+  for (let i = 0; i < 8; i++) {
+    const x2 = r * Math.cos(i * Math.PI / 4) + 0.5
+    const y2 = r * Math.sin(i * Math.PI / 4) + 0.5
+    const line = createSVGElement('line', {
+      x1: '0.5',
+      y1: '0.5',
+      x2: `${x2}`,
+      y2: `${y2}`,
+      stroke: 'black',
+      'stroke-width': '0.1'
+    })
+    group.appendChild(line)
+  }
   const bigCircle = createSVGElement('circle', {
     cx: '0.5',
     cy: '0.5',
-    r: '0.4',
+    r: '0.3',
     fill: 'black'
   })
   const smallCircle = createSVGElement('circle', {
-    cx: '0.3',
+    cx: '0.4',
     cy: '0.4',
-    r: '0.1',
+    r: '0.06',
     fill: 'white'
   })
-  const group = createSVGElement('g', {})
-  group.appendChild(lineH)
-  group.appendChild(lineV)
   group.appendChild(bigCircle)
   group.appendChild(smallCircle)
   return group
@@ -93,19 +90,32 @@ const createContent = square => {
   return undefined
 }
 
-const createCover = () => createSVGElement('rect', {
-  x: '0.05',
-  y: '0.05',
-  width: '0.95',
-  height: '0.95',
-  fill: 'blue',
-  // stroke: '#black',
-  // 'stroke-width': '0.01'
-})
+const createCover = () => {
+  const rect = createSVGElement('rect', {
+    x: '0.05',
+    y: '0.05',
+    width: '0.95',
+    height: '0.95',
+    fill: '#8e8'
+  })
+  const upperTriangle = createSVGElement('polygon', {
+    points: '0,0 1,0 0,1',
+    fill: '#cfc'
+  })
+  const lowerTriangle = createSVGElement('polygon', {
+    points: '1,0 1,1 0,1',
+    fill: '#4a4'
+  })
+  const g = createSVGElement('g', {})
+  g.appendChild(upperTriangle)
+  g.appendChild(lowerTriangle)
+  g.appendChild(rect)
+  return g
+}
 
 const createFlag = () => {
   const triangle = createSVGElement('polygon', {
-    points: '0.5,0.2 0.5,0.4 0.3,0.3',
+    points: '0.5,0.2 0.5,0.5 0.2,0.35',
     fill: 'red'
   })
   const line = createSVGElement('line', {
@@ -113,7 +123,7 @@ const createFlag = () => {
     y1: '0.2',
     x2: '0.5',
     y2: '0.8',
-    'stroke-width': '0.1',
+    'stroke-width': '0.05',
     stroke: 'black'
   })
   const g = createSVGElement('g', {})

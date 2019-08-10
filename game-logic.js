@@ -1,6 +1,6 @@
 
 const emptySquare = () => ({
-  hasMine: false,
+  hasMine: true,
   adjacentMines: 0,
   covered: false,
   flagged: false
