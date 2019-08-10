@@ -2,7 +2,7 @@
 
 console.log('index', rxjs)
 
-const initialState = start(20, 20, 0)
+const initialState = start(20, 20, 0.2)
 
 const render = createBoardAndRender(initialState)
 
