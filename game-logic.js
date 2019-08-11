@@ -47,7 +47,8 @@ const start = (rows, cols, mineProbability) => {
   const state = {
     squares,
     rows,
-    cols
+    cols,
+    gameOver: false
   }
 
   squares.forEach(square => {
@@ -60,6 +61,34 @@ const start = (rows, cols, mineProbability) => {
   })
 
   return state
+}
+
+const toggleFlag = i => state => {
+  const squares = state.squares.slice()
+  const flag = squares[i].flagged ? false : true
+  squares[i] = { ...squares[i], ...{ flag } }
+  return { ...state, ...{ squares } }
+}
+
+const uncover = i => state => {
+  if (!state[i].covered || state[i].flagged) return state
+
+  const squares = state.squares.map(square => { ...square })
+  const newState = { ...state, ...{ squares } }
+
+  const recursivelyUncover = square => {
+    if (!square.covered) return
+    square.covered = false
+    if (square.hasMine) newState.gameOver = true
+    if (square.hasMine || square.adjacentMines) return
+    neighbors(square).forEach(neighbor =>
+      recursivelyUncover(newState, neighbor)
+    )
+  }
+
+  recursivelyUncover(newState.squares[i])
+
+  return newState
 }
 
 const nextState = (state, action) => state
