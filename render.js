@@ -29,7 +29,6 @@ const createBackground = () => createSVGElement('rect', {
 const createMine = () => {
   const group = createSVGElement('g', {})
   const r = 0.4
-  const lines = []
   for (let i = 0; i < 8; i++) {
     const x2 = r * Math.cos(i * Math.PI / 4) + 0.5
     const y2 = r * Math.sin(i * Math.PI / 4) + 0.5
@@ -72,23 +71,12 @@ const colors = [
   'black'
 ]
 
-const createNumber = number => {
-  const text = createSVGElement('text', {
-    x: '0.5',
-    y: '0.87',
-    'font-size': '1.0',
-    fill: colors[number],
-    'text-anchor': 'middle'
-  })
-  text.textContent = number
-  return text
-}
-
-const createContent = square => {
-  if (square.hasMine) return createMine()
-  if (square.adjacentMines) return createNumber(square.adjacentMines)
-  return undefined
-}
+const createNumber = () => createSVGElement('text', {
+  x: '0.5',
+  y: '0.87',
+  'font-size': '1.0',
+  'text-anchor': 'middle'
+})
 
 const createCover = () => {
   const rect = createSVGElement('rect', {
@@ -139,7 +127,8 @@ const createGroup = (x, y) => createSVGElement('g', {
 
 const createSquare = rows => (square, i) => {
   const background = createBackground()
-  const content = createContent(square)
+  const number = createNumber()
+  const mine = createMine()
   const cover = createCover()
   const flag = createFlag()
 
@@ -148,7 +137,8 @@ const createSquare = rows => (square, i) => {
   const group = createGroup(x, y)
 
   group.appendChild(background)
-  if (content) group.appendChild(content)
+  group.appendChild(number)
+  group.appendChild(mine)
   group.appendChild(cover)
   group.appendChild(flag)
   group.id = i
@@ -156,32 +146,49 @@ const createSquare = rows => (square, i) => {
 
   return {
     group,
+    number,
+    mine,
     cover,
     flag
   }
 }
 
-const createBoardAndRender = state => {
+let board = {
+  rows: undefined,
+  cols: undefined,
+  squares: undefined
+}
+
+const createBoard = state => {
+  const { rows, cols } = state
   const svg = createSVG(state)
   const squares = state.squares.map(createSquare(state.rows))
   squares.forEach(square => svg.appendChild(square.group))
-
   document.querySelector('.board').appendChild(svg)
+  board = { rows, cols, squares }
+}
 
-  const renderUncovered = i => {
-    squares[i].cover.classList.add('hidden')
-  }
+const getSquareElement = square => board.squares[square.x + square.y * board.cols]
 
-  const renderFlag = i => {
-    squares[i].cover.classList.remove('hidden')
-  }
+const renderIf = (condition, element) =>
+  condition
+    ? element.classList.remove('hidden')
+    : element.classList.add('hidden')
 
-  const render = state => {
-    state.squares.forEach((square, i) => {
-      if (!square.covered) renderUncovered(i)
-      if (square.flagged) renderFlag(i)
-    })
-  }
+const setNumber = (numberElement, number) => {
+  numberElement.textContent = number ? `${number}` : ''
+  numberElement.setAttribute('fill', colors[number])
+}
 
-  return render
+const render = state => {
+  if (state.rows !== board.rows && state.cols !== board.cols) createBoard(state)
+
+  state.squares.forEach(square => {
+    const squareElement = getSquareElement(square)
+    setNumber(squareElement.number, square.adjacentMines)
+    renderIf(!square.hasMine, squareElement.number)
+    renderIf(square.hasMine, squareElement.mine)
+    renderIf(square.covered, squareElement.cover)
+    renderIf(square.flagged, squareElement.flag)
+  })
 }

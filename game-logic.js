@@ -41,7 +41,7 @@ const neighbors = (state, square) =>
     .map(getSquare(state))
 
 const start = (rows, cols, mineProbability) => {
-  // const squares =  Array.from({ length: rows * cols }, emptySquare)
+
   const squares = Array.from(Array(rows * cols).keys(), emptySquare(rows))
 
   const state = {
@@ -65,15 +65,14 @@ const start = (rows, cols, mineProbability) => {
 
 const toggleFlag = i => state => {
   const squares = state.squares.slice()
-  const flag = squares[i].flagged ? false : true
-  squares[i] = { ...squares[i], ...{ flag } }
+  squares[i] = { ...squares[i], ...{ flagged: !squares[i].flagged } }
   return { ...state, ...{ squares } }
 }
 
 const uncover = i => state => {
   if (!state[i].covered || state[i].flagged) return state
 
-  const squares = state.squares.map(square => { ...square })
+  const squares = state.squares.map(square => ({ ...square }))
   const newState = { ...state, ...{ squares } }
 
   const recursivelyUncover = square => {
