@@ -25,13 +25,13 @@ const directions = [
 
 const getSquare = state => p => state.squares[p.y * state.cols + p.x]
 
-const emptySquare = rows => i => ({
+const emptySquare = cols => i => ({
   hasMine: false,
   adjacentMines: 0,
   covered: true,
   flagged: false,
-  x: i % rows,
-  y: Math.floor(i / rows)
+  x: i % cols,
+  y: Math.floor(i / cols)
 })
 
 const neighbors = (state, square) =>
@@ -41,8 +41,7 @@ const neighbors = (state, square) =>
     .map(getSquare(state))
 
 const start = (rows, cols, mineProbability) => {
-console.log(rows, cols, mineProbability)
-  const squares = Array.from(Array(rows * cols).keys(), emptySquare(rows))
+  const squares = Array.from(Array(rows * cols).keys(), emptySquare(cols))
 
   const state = {
     squares,
@@ -64,13 +63,14 @@ console.log(rows, cols, mineProbability)
 }
 
 const toggleFlag = i => state => {
-  if (state.gameOver) return state
+  if (state.gameOver || !state.squares[i].covered) return state
   const squares = state.squares.slice()
   squares[i] = { ...squares[i], ...{ flagged: !squares[i].flagged } }
   return { ...state, ...{ squares } }
 }
 
 const uncover = i => state => {
+console.log(i, state)
   if (state.gameOver ||
     !state.squares[i].covered ||
     state.squares[i].flagged) return state

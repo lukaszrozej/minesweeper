@@ -125,23 +125,21 @@ const createGroup = (x, y) => createSVGElement('g', {
   transform: `scale (${squareSize} ${squareSize}) translate (${x} ${y})`
 })
 
-const createSquare = rows => (square, i) => {
+const createSquare = cols => square => {
   const background = createBackground()
   const number = createNumber()
   const mine = createMine()
   const cover = createCover()
   const flag = createFlag()
 
-  const x = i % rows
-  const y = Math.floor(i / rows)
-  const group = createGroup(x, y)
+  const group = createGroup(square.x, square.y)
 
   group.appendChild(background)
   group.appendChild(number)
   group.appendChild(mine)
   group.appendChild(cover)
   group.appendChild(flag)
-  group.id = i
+  group.id = square.x + cols * square.y
   group.classList.add('square')
 
   return {
@@ -164,7 +162,7 @@ const boardDiv = document.querySelector('.board')
 const createBoard = state => {
   const { rows, cols } = state
   const svg = createSVG(state)
-  const squares = state.squares.map(createSquare(state.rows))
+  const squares = state.squares.map(createSquare(cols))
   squares.forEach(square => svg.appendChild(square.group))
   boardDiv.innerHTML = ''
   boardDiv.appendChild(svg)
@@ -183,10 +181,16 @@ const setNumber = (numberElement, number) => {
   numberElement.setAttribute('fill', colors[number])
 }
 
+const renderMinesLeft = state => {
+  const mines = state.squares.filter(s => s.hasMine).length
+  const flags = state.squares.filter(s => s.flagged).length
+  document.getElementById('mines-left').textContent = mines - flags
+}
+
 const render = state => {
-  console.log(state)
   if (state.rows !== board.rows && state.cols !== board.cols) createBoard(state)
 
+  renderMinesLeft(state)
   state.squares.forEach(square => {
     const squareElement = getSquareElement(square)
     setNumber(squareElement.number, square.adjacentMines)

@@ -12,6 +12,10 @@ body {
   visibility: hidden;
 }
 
+#mines-left {
+  color: white;
+}
+
 /* Modal */
 
 .modal {
