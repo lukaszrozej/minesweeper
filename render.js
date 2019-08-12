@@ -159,12 +159,15 @@ let board = {
   squares: undefined
 }
 
+const boardDiv = document.querySelector('.board')
+
 const createBoard = state => {
   const { rows, cols } = state
   const svg = createSVG(state)
   const squares = state.squares.map(createSquare(state.rows))
   squares.forEach(square => svg.appendChild(square.group))
-  document.querySelector('.board').appendChild(svg)
+  boardDiv.innerHTML = ''
+  boardDiv.appendChild(svg)
   board = { rows, cols, squares }
 }
 
@@ -181,6 +184,7 @@ const setNumber = (numberElement, number) => {
 }
 
 const render = state => {
+  console.log(state)
   if (state.rows !== board.rows && state.cols !== board.cols) createBoard(state)
 
   state.squares.forEach(square => {

@@ -41,7 +41,7 @@ const neighbors = (state, square) =>
     .map(getSquare(state))
 
 const start = (rows, cols, mineProbability) => {
-
+console.log(rows, cols, mineProbability)
   const squares = Array.from(Array(rows * cols).keys(), emptySquare(rows))
 
   const state = {
@@ -64,13 +64,16 @@ const start = (rows, cols, mineProbability) => {
 }
 
 const toggleFlag = i => state => {
+  if (state.gameOver) return state
   const squares = state.squares.slice()
   squares[i] = { ...squares[i], ...{ flagged: !squares[i].flagged } }
   return { ...state, ...{ squares } }
 }
 
 const uncover = i => state => {
-  if (!state[i].covered || state[i].flagged) return state
+  if (state.gameOver ||
+    !state.squares[i].covered ||
+    state.squares[i].flagged) return state
 
   const squares = state.squares.map(square => ({ ...square }))
   const newState = { ...state, ...{ squares } }
@@ -80,8 +83,8 @@ const uncover = i => state => {
     square.covered = false
     if (square.hasMine) newState.gameOver = true
     if (square.hasMine || square.adjacentMines) return
-    neighbors(square).forEach(neighbor =>
-      recursivelyUncover(newState, neighbor)
+    neighbors(newState, square).forEach(neighbor =>
+      recursivelyUncover(neighbor)
     )
   }
 
@@ -90,7 +93,9 @@ const uncover = i => state => {
   return newState
 }
 
-const nextState = (state, action) => state
+const newBoard = ({rows, cols, prob}) => () => start(rows, cols, prob)
+
+const nextState = (state, action) => action(state)
 
 const Minesweeper = { start, nextState }
 

@@ -9,9 +9,28 @@
 </head>
 <body>
   <div class="board"></div>
+  <button id="open-modal">New board</button>
+  <div class="modal">
+    <form action="">
+      <label for="rows">
+        Number of rows: <span id="rows-span">20</span>
+      </label>
+      <input type="range" class="slider" name="rows" id="rows" min="1" max="40" value="20">
+      <label for="cols">
+        Number of columns: <span id="cols-span">20</span>
+      </label>
+      <input type="range" class="slider" name="cols" id="cols" min="1" max="40" value="20">
+      <label for="prob">
+        Mine probability: <span id="prob-span">0.20</span>
+      </label>
+      <input type="range" class="slider" name="prob" id="prob" min="0" max="1" value="0.2" step="0.01">
+      <button id="generate">Generate new board</button>
+    </form>
+  </div>
   <script src="rxjs.umd.min.js"></script>
   <script src="game-logic.js"></script>
   <script src="render.js"></script>
+  <script src="modal.js"></script>
   <script src="game-loop.js"></script>
   <script src="index.js"></script>
 </body>
