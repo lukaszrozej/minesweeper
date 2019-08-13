@@ -70,7 +70,7 @@ const toggleFlag = i => state => {
 }
 
 const uncover = i => state => {
-console.log(i, state)
+  console.log(i, state)
   if (state.gameOver ||
     !state.squares[i].covered ||
     state.squares[i].flagged) return state
@@ -90,10 +90,14 @@ console.log(i, state)
 
   recursivelyUncover(newState.squares[i])
 
+  if (newState.gameOver) {
+    newState.squares.forEach(square => { square.covered = false })
+  }
+
   return newState
 }
 
-const newBoard = ({rows, cols, prob}) => () => start(rows, cols, prob)
+const newBoard = ({ rows, cols, prob }) => () => start(rows, cols, prob)
 
 const nextState = (state, action) => action(state)
 
