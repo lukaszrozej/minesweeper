@@ -69,7 +69,6 @@ const toggleFlag = i => state => {
 }
 
 const uncover = i => state => {
-  console.log(i, state)
   if (state.gameOver ||
     !state.squares[i].covered ||
     state.squares[i].flagged) return state

@@ -5,13 +5,11 @@ const generateBtn = document.querySelector('#generate')
 const sliders = document.querySelectorAll('.slider')
 const [rowsSlider, colsSlider, probSlider] = sliders
 
-/* eslint-disable no-unused-vars */
 const getSliderValues = () => ({
   rows: rowsSlider.value,
   cols: colsSlider.value,
   prob: probSlider.value
 })
-/* eslint-eneble no-unused-vars */
 
 const toggleModal = e => {
   e.preventDefault()

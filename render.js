@@ -1,5 +1,3 @@
-console.log('render')
-
 const squareSize = 30
 const ns = 'http://www.w3.org/2000/svg'
 
