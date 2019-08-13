@@ -84,15 +84,15 @@ const createCover = () => {
     y: '0.05',
     width: '0.95',
     height: '0.95',
-    fill: '#8e8'
+    fill: '#bbb'
   })
   const upperTriangle = createSVGElement('polygon', {
     points: '0,0 1,0 0,1',
-    fill: '#cfc'
+    fill: '#d8d8d8'
   })
   const lowerTriangle = createSVGElement('polygon', {
     points: '1,0 1,1 0,1',
-    fill: '#4a4'
+    fill: '#888'
   })
   const g = createSVGElement('g', {})
   g.appendChild(upperTriangle)
