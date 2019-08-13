@@ -1,4 +1,4 @@
-
+/* eslint-disable no-unused-vars */
 const applyTo = x => f => f(x)
 
 const add = p1 => p2 => ({
@@ -100,7 +100,4 @@ const uncover = i => state => {
 const newBoard = ({ rows, cols, prob }) => () => start(rows, cols, prob)
 
 const nextState = (state, action) => action(state)
-
-const Minesweeper = { start, nextState }
-
-console.log('game-logic', Minesweeper)
+/* eslint-eneble no-unused-vars */

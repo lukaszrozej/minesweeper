@@ -1,6 +1,4 @@
-/* global rxjs, Minesweeper */
-
-console.log('game-looep', rxjs, Minesweeper)
+/* global rxjs, start, uncover, toggleFlag, newBoard, nextState, generateBtn, getSliderValues, render */
 
 const { fromEvent, merge } = rxjs
 const { map, filter, scan, startWith } = rxjs.operators

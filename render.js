@@ -187,6 +187,7 @@ const renderMinesLeft = state => {
   document.getElementById('mines-left').textContent = mines - flags
 }
 
+/* eslint-disable no-unused-vars */
 const render = state => {
   if (state.rows !== board.rows && state.cols !== board.cols) createBoard(state)
 
@@ -200,3 +201,4 @@ const render = state => {
     renderIf(square.flagged, squareElement.flag)
   })
 }
+/* eslint-eneble no-unused-vars */
