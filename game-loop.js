@@ -1,4 +1,8 @@
-/* global rxjs, start, uncover, toggleFlag, newBoard, nextState, generateBtn, getSliderValues, render */
+/* global rxjs */
+
+import { start, newBoard, toggleFlag, uncover, nextState } from './game-logic.js'
+import { render } from './render.js'
+import { getSliderValues, generateBtn } from './modal.js'
 
 const { fromEvent, merge } = rxjs
 const { map, filter, scan, startWith } = rxjs.operators

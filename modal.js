@@ -30,3 +30,5 @@ const valueSetterFor = slider => {
 sliders.forEach(slider => {
   slider.addEventListener('input', valueSetterFor(slider))
 })
+
+export { getSliderValues, generateBtn }

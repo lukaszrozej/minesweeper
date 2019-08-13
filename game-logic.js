@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 const applyTo = x => f => f(x)
 
 const add = p1 => p2 => ({
@@ -100,4 +99,5 @@ const uncover = i => state => {
 const newBoard = ({ rows, cols, prob }) => () => start(rows, cols, prob)
 
 const nextState = (state, action) => action(state)
-/* eslint-eneble no-unused-vars */
+
+export { start, newBoard, toggleFlag, uncover, nextState }
